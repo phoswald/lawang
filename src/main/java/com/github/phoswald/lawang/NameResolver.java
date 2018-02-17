@@ -11,8 +11,8 @@ class NameResolver <T> {
 
 	NameResolver(Class<T> type) {
 		this.proxy = type.cast(Proxy.newProxyInstance(
-				type.getClassLoader(), 
-				new Class[] { type }, 
+				type.getClassLoader(),
+				new Class[] { type },
 				this::invoke));
 	}
 
@@ -23,6 +23,6 @@ class NameResolver <T> {
 
 	private Object invoke(Object instance, Method method, Object[] args) {
 		lastName = method.getName();
-		return null;
+		return DefaultValues.getDefaultValue(method.getReturnType());
 	}
 }
