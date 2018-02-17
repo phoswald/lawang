@@ -4,9 +4,9 @@
   <groupId>com.github.phoswald</groupId>
   <artifactId>lawang</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+
   <name>A small island off lombok</name>
-  <description>Define immutable value types using interfaces and lambdas</description>
+  <description>Define immutable value types using interfaces and method references</description>
   <url>https://github.com/phoswald/${project.artifactId}</url>
 
   <properties>
