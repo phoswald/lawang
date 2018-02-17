@@ -11,9 +11,7 @@ class NameResolver <T> {
 
 	NameResolver(Class<T> type) {
 		this.proxy = type.cast(Proxy.newProxyInstance(
-				type.getClassLoader(),
-				new Class[] { type },
-				this::invoke));
+				type.getClassLoader(), new Class[] { type }, this::invoke));
 	}
 
 	String getNameOfGetter(Function<T, ?> getter) {

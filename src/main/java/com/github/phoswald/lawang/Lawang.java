@@ -2,37 +2,39 @@ package com.github.phoswald.lawang;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class Lawang {
 
-	public static <T> T build(Class<T> type) {
-		return builder(type).build();
+	@SafeVarargs
+	public static <T> T create(Class<T> type, Pair<T>... pairs) {
+		NameResolver<T> resolver = new NameResolver<>(type);
+		Map<String, Object> fields = new HashMap<>();
+		for(Pair<T> pair : pairs) {
+			fields.put(resolver.getNameOfGetter(pair.getter), pair.value);
+		}
+		return GenericValueObject.createProxy(type, fields);
 	}
 
-	public static <T> Builder<T> builder(Class<T> type) {
-		return new Builder<T>(type);
+	public static <T,V> PairLhs<T,V> set(Function<T, V> getter) {
+		PairLhs<T,V> assignment = new PairLhs<>();
+		assignment.getter = getter;
+		return assignment;
 	}
 
-	public static class Builder<T> {
+	public static class PairLhs<T,V> {
+		Function<T,?> getter;
 
-		private final Class<T> type;
-		private final NameResolver<T> resolver;
-		private final Map<String, Object> fields = new HashMap<>();
-
-		Builder(Class<T> type) {
-			this.type = Objects.requireNonNull(type);
-			this.resolver = new NameResolver<>(type);
+		public Pair<T> to(V value) {
+			Pair<T> pair = new Pair<>();
+			pair.getter = getter;
+			pair.value = value;
+			return pair;
 		}
+	}
 
-		<V> Builder<T> with(Function<T, V> getter, V value) {
-			fields.put(resolver.getNameOfGetter(getter), value);
-			return this;
-		}
-
-		public T build() {
-			return GenericValueObject.createProxy(type, fields);
-		}
+	public static class Pair<T> {
+	    Function<T,?> getter;
+		Object value;
 	}
 }

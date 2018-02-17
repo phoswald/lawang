@@ -18,9 +18,7 @@ class GenericValueObject implements InvocationHandler {
 
 	static <T> T createProxy(Class<T> type, Map<String, Object> fields) {
 		return type.cast(Proxy.newProxyInstance(
-				type.getClassLoader(),
-				new Class[] { type },
-				new GenericValueObject(type, fields)));
+				type.getClassLoader(), new Class[] { type }, new GenericValueObject(type, fields)));
 	}
 
 	@Override
