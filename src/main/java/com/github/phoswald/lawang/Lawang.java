@@ -2,39 +2,46 @@ package com.github.phoswald.lawang;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class Lawang {
 
-    @SafeVarargs
-    public static <T> T create(Class<T> type, Pair<T>... pairs) {
-        NameResolver<T> resolver = new NameResolver<>(type);
-        Map<String, Object> fields = new HashMap<>();
-        for(Pair<T> pair : pairs) {
-            fields.put(resolver.getNameOfGetter(pair.getter), pair.value);
+    public static <T> T create(Class<T> type) {
+        return create(type, (cx, it) -> cx);
+    }
+
+    public static <T> T create(Class<T> type, BiFunction<Initializer<T>, T, Initializer<T>> initializerFunc) {
+        Initializer<T> initializer = new Initializer<>(type);
+        initializerFunc.apply(initializer, initializer.resolver.proxy);
+        return GenericValueObject.createProxy(type, initializer.fields);
+    }
+
+    public static class Initializer<T> {
+        final NameResolver<T> resolver;
+        final Map<String, Object> fields = new HashMap<>();
+
+        Initializer(Class<T> type) {
+            this.resolver = new NameResolver<>(type);
         }
-        return GenericValueObject.createProxy(type, fields);
-    }
 
-    public static <T,V> PairLhs<T,V> set(Function<T, V> getter) {
-        PairLhs<T,V> assignment = new PairLhs<>();
-        assignment.getter = getter;
-        return assignment;
-    }
-
-    public static class PairLhs<T,V> {
-        Function<T,?> getter;
-
-        public Pair<T> to(V value) {
-            Pair<T> pair = new Pair<>();
-            pair.getter = getter;
-            pair.value = value;
-            return pair;
+        public <V> Assignment<T,V> set(Supplier<V> getter) {
+            return new Assignment<>(this, getter);
         }
     }
 
-    public static class Pair<T> {
-        Function<T,?> getter;
-        Object value;
+    public static class Assignment<T,V> {
+        final Initializer<T> initializer;
+        final Supplier<?> getter;
+
+        Assignment(Initializer<T> initializer, Supplier<V> getter) {
+            this.initializer = initializer;
+            this.getter = getter;
+        }
+
+        public Initializer<T> to(V value) {
+            initializer.fields.put(initializer.resolver.getNameOfGetter(getter), value);
+            return initializer;
+        }
     }
 }

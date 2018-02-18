@@ -2,7 +2,6 @@ package com.github.phoswald.lawang;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 class NameResolver <T> {
@@ -13,11 +12,6 @@ class NameResolver <T> {
     NameResolver(Class<T> type) {
         this.proxy = type.cast(Proxy.newProxyInstance(
                 type.getClassLoader(), new Class[] { type }, this::invoke));
-    }
-
-    String getNameOfGetter(Function<T, ?> getter) {
-        getter.apply(proxy);
-        return lastName;
     }
 
     String getNameOfGetter(Supplier<?> getter) {
