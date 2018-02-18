@@ -2,6 +2,7 @@ package com.github.phoswald.lawang;
 
 import static com.github.phoswald.lawang.Lawang.create;
 import static com.github.phoswald.lawang.Lawang.set;
+import static com.github.phoswald.lawang.Lawang3.set3;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -28,10 +29,40 @@ public class LawangTest {
     @Test
     public void builder_withFields_correctValues() {
         Person person = create(Person.class,
-                set(Person::name).to("Philip Oswald"),
-                set(Person::email).to("philip.oswald@gmail.com"),
-                set(Person::birthdate).to(LocalDate.of(1977, 10, 26)),
-                set(Person::age).to(40));
+            set(Person::name).to("Philip Oswald"),
+            set(Person::email).to("philip.oswald@gmail.com"),
+            set(Person::birthdate).to(LocalDate.of(1977, 10, 26)),
+            set(Person::age).to(40));
+        assertNotNull(person);
+        assertEquals("Philip Oswald", person.name());
+        assertEquals("philip.oswald@gmail.com", person.email());
+        assertEquals(40, person.age());
+        assertEquals(LocalDate.of(1977, 10, 26), person.birthdate());
+    }
+
+    @Test
+    public void builder2_withFields_correctValues() {
+        Person person = Lawang2.create(Person.class, (c, it) -> {
+            c.set(it::name).to("Philip Oswald");
+            c.set(it::email).to("philip.oswald@gmail.com");
+            c.set(it::birthdate).to(LocalDate.of(1977, 10, 26));
+            c.set(it::age).to(40);
+        });
+        assertNotNull(person);
+        assertEquals("Philip Oswald", person.name());
+        assertEquals("philip.oswald@gmail.com", person.email());
+        assertEquals(40, person.age());
+        assertEquals(LocalDate.of(1977, 10, 26), person.birthdate());
+    }
+
+    @Test
+    public void builder3_withFields_correctValues() {
+        Person person = Lawang3.create(Person.class, it -> {
+            set3(it::name).to("Philip Oswald");
+            set3(it::email).to("philip.oswald@gmail.com");
+            set3(it::birthdate).to(LocalDate.of(1977, 10, 26));
+            set3(it::age).to(40);
+        });
         assertNotNull(person);
         assertEquals("Philip Oswald", person.name());
         assertEquals("philip.oswald@gmail.com", person.email());

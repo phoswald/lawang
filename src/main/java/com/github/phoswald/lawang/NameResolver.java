@@ -3,10 +3,11 @@ package com.github.phoswald.lawang;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 class NameResolver <T> {
 
-    private final T proxy;
+    final T proxy;
     private String lastName;
 
     NameResolver(Class<T> type) {
@@ -16,6 +17,11 @@ class NameResolver <T> {
 
     String getNameOfGetter(Function<T, ?> getter) {
         getter.apply(proxy);
+        return lastName;
+    }
+
+    String getNameOfGetter(Supplier<?> getter) {
+        getter.get();
         return lastName;
     }
 
