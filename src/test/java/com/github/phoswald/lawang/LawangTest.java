@@ -8,13 +8,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
 public class LawangTest {
 
     @Test
-    public void builder_noFields_defaultValues() {
+    public void create_noArgs_defaultValues() {
         Person person = Lawang.create(Person.class);
         assertNotNull(person);
         assertNull(person.name());
@@ -24,7 +26,7 @@ public class LawangTest {
     }
 
     @Test
-    public void builder_withFields_correctValues() {
+    public void create_withInitializer_correctValues() {
         Person person = Lawang.create(Person.class, (cx, it) -> cx
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com")
@@ -33,12 +35,39 @@ public class LawangTest {
         assertNotNull(person);
         assertEquals("Philip Oswald", person.name());
         assertEquals("philip.oswald@gmail.com", person.email());
-        assertEquals(40, person.age());
         assertEquals(LocalDate.of(1977, 10, 26), person.birthdate());
+        assertEquals(40, person.age());
     }
 
     @Test
-    public void builder_toString_byValue() {
+    public void create_withMap_correctValues() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "Philip Oswald");
+        map.put("email", "philip.oswald@gmail.com");
+        map.put("birthdate", LocalDate.of(1977, 10, 26));
+        map.put("age", 40);
+        Person person = Lawang.create(Person.class, map);
+        assertNotNull(person);
+        assertEquals("Philip Oswald", person.name());
+        assertEquals("philip.oswald@gmail.com", person.email());
+        assertEquals(LocalDate.of(1977, 10, 26), person.birthdate());
+        assertEquals(40, person.age());
+    }
+
+    @Test
+    public void toMap_instance_correctValues() {
+        Person person = Lawang.create(Person.class, (cx, it) -> cx
+                .set(it::name).to("Philip Oswald")
+                .set(it::age).to(40));
+        Map<String, Object> map = Lawang.toMap(person);
+        assertNotNull(map);
+        assertEquals(2, map.size());
+        assertEquals("Philip Oswald", map.get("name"));
+        assertEquals(40, map.get("age"));
+    }
+
+    @Test
+    public void instance_toString_byValue() {
         Person person = Lawang.create(Person.class, (cx, it) -> cx
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
@@ -47,7 +76,7 @@ public class LawangTest {
     }
 
     @Test
-    public void builder_equalsAndHashCode_byValue() {
+    public void instance_equalsAndHashCode_byValue() {
         Person person = Lawang.create(Person.class, (cx, it) -> cx
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));

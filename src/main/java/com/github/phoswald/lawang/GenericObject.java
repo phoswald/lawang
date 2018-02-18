@@ -3,22 +3,28 @@ package com.github.phoswald.lawang;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-class GenericValueObject implements InvocationHandler {
+class GenericObject implements InvocationHandler {
 
     private final Class<?> type;
     private final Map<String, Object> fields;
 
-    private GenericValueObject(Class<?> type, Map<String, Object> fields) {
+    private GenericObject(Class<?> type, Map<String, Object> fields) {
         this.type = type;
         this.fields = new TreeMap<>(fields);
     }
 
     static <T> T createProxy(Class<T> type, Map<String, Object> fields) {
         return type.cast(Proxy.newProxyInstance(
-                type.getClassLoader(), new Class[] { type }, new GenericValueObject(type, fields)));
+                type.getClassLoader(), new Class[] { type }, new GenericObject(type, fields)));
+    }
+
+    static Map<String, Object> getFields(Object instance) {
+        return Collections.unmodifiableMap(
+                ((GenericObject) Proxy.getInvocationHandler(instance)).fields);
     }
 
     @Override
