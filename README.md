@@ -11,7 +11,7 @@ Define immutable value types using interfaces and method references
         int age();
     }
     
-    Person person = Lawang.create(Person.class, (cx, it) -> cx
+    Person person = Lawang.create(Person.class, (b, it) -> b
         .set(it::name).to("Philip Oswald")
         .set(it::age).to(40));
     
