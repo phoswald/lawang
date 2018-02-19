@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class Lawang {
 
     public static <T> T create(Class<T> type) {
-        return create(type, (cx, it) -> cx);
+        return create(type, (b, it) -> b);
     }
 
     public static <T> T create(Class<T> type, BiFunction<Initializer<T>, T, Initializer<T>> initializerFunc) {

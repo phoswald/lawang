@@ -1,6 +1,6 @@
 package com.github.phoswald.lawang;
 
-class DefaultValues {
+class TypeSupport {
 
     static boolean requiresDefaultValue(Class<?> type) {
         return type.isPrimitive();

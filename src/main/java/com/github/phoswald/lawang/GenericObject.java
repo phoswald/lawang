@@ -55,8 +55,8 @@ class GenericObject implements InvocationHandler {
                 return hashCode();
             default:
                 Object result = fields.get(method.getName());
-                if(result == null && DefaultValues.requiresDefaultValue(method.getReturnType())) {
-                    result = DefaultValues.getDefaultValue(method.getReturnType());
+                if(result == null && TypeSupport.requiresDefaultValue(method.getReturnType())) {
+                    result = TypeSupport.getDefaultValue(method.getReturnType());
                 }
                 return result;
         }

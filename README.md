@@ -1,4 +1,5 @@
-# lawang - A small island off lombok
+# Lawang - A small island off Lombok
+
 Define immutable value types using interfaces and method references
 
 ## Sample usage
@@ -24,26 +25,26 @@ Define immutable value types using interfaces and method references
 * type safety
 * simplicity
 * no external dependencies (rely on JRE only)
-* no byte code manipulation or dynamic code generation (no Java agent, rely on java.lang.reflect.Proxy only)
+* no byte code manipulation or dynamic code generation (no Java agent, rely on JRE dynamic proxies only)
 * ease of use (concise syntax, built-in support for common JRE types and file formats)
 
 ## Intended feature set
 
 Supported data types:
-* Java primitive types: boolean, byte, short, char, int, long, float, double
-* Boxed primitive types: java.lang.Boolean, ...
+* Java primitive types: `boolean`, `byte`, `short`, `char`, `int`, `long`, `float`, `double`
+* Boxed primitive types: `java.lang.Boolean`, ...
 * Enums
-* Common immutable types: java.lang.String, java.math.BigDecimal, java.math.BigInteger, 
-  java.lang.Class, java.util.regex.Pattern, java.nio.file.Path
-* Immutable date/time types: java.time.LocalDateTime, ...
-* Immutable collections and optionals: java.util.List<T> java.util.SortedSet<T>, java.util.SortedMap<String, T>
-  and java.lang.Optional<T> (where T is a supported data type)
+* Common immutable types: `java.lang.String`, `java.math.BigDecimal`, `java.math.BigInteger`, 
+  `java.lang.Class`, `java.util.regex.Pattern`, `java.nio.file.Path`
+* Immutable date/time types: `java.time.LocalDateTime`, ...
+* Immutable collections and optionals: `java.util.List<T>`, `java.util.SortedSet<T>`, `java.util.SortedMap<String,T>`
+  and `java.lang.Optional<T>` (where `T` is a supported data type)
 * other compatible interfaces (i.e. interfaces where all non-static, non-abstract methods are getters that 
   return a supported data type).
 
 Supported functionality:
-* toString(), hashCode(), equals() with 'by value' semantics
-* shallow conversion from and to Map<String, Object> (where Object is a supported data type)
-* deep conversion from and to Map<String, Object> (where Object is String or Map<String, Object>) 
+* `toString()`, `hashCode()`, `equals()` with 'by value' semantics
+* shallow conversion from and to `Map<String,Object>` (where `Object` is a supported data type)
+* deep conversion from and to `Map<String,Object>` (where `Object` is `String` or `Map<String,Object>`) 
 * conversion from and to XML and JSON
-* support for Java serialization (java.io.Serializable)
+* support for Java serialization (`java.io.Serializable`)

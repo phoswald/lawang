@@ -21,6 +21,6 @@ class NameResolver <T> {
 
     private Object invoke(Object instance, Method method, Object[] args) {
         lastName = method.getName();
-        return DefaultValues.getDefaultValue(method.getReturnType());
+        return TypeSupport.getDefaultValue(method.getReturnType());
     }
 }

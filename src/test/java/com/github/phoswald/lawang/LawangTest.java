@@ -27,7 +27,7 @@ public class LawangTest {
 
     @Test
     public void create_withInitializer_correctValues() {
-        Person person = Lawang.create(Person.class, (cx, it) -> cx
+        Person person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com")
             .set(it::birthdate).to(LocalDate.of(1977, 10, 26))
@@ -56,7 +56,7 @@ public class LawangTest {
 
     @Test
     public void toMap_instance_correctValues() {
-        Person person = Lawang.create(Person.class, (cx, it) -> cx
+        Person person = Lawang.create(Person.class, (b, it) -> b
                 .set(it::name).to("Philip Oswald")
                 .set(it::age).to(40));
         Map<String, Object> map = Lawang.toMap(person);
@@ -68,7 +68,7 @@ public class LawangTest {
 
     @Test
     public void instance_toString_byValue() {
-        Person person = Lawang.create(Person.class, (cx, it) -> cx
+        Person person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
 
@@ -77,13 +77,13 @@ public class LawangTest {
 
     @Test
     public void instance_equalsAndHashCode_byValue() {
-        Person person = Lawang.create(Person.class, (cx, it) -> cx
+        Person person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
-        Person person2 = Lawang.create(Person.class, (cx, it) -> cx
+        Person person2 = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
-        Person person3 = Lawang.create(Person.class, (cx, it) -> cx
+        Person person3 = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald"));
 
         assertTrue(person.equals(person2));
