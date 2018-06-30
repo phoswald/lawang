@@ -17,7 +17,7 @@ public class LawangTest {
 
     @Test
     public void create_noArgs_defaultValues() {
-        Person person = Lawang.create(Person.class);
+        var person = Lawang.create(Person.class);
         assertNotNull(person);
         assertNull(person.name());
         assertNull(person.email());
@@ -27,7 +27,7 @@ public class LawangTest {
 
     @Test
     public void create_withInitializer_correctValues() {
-        Person person = Lawang.create(Person.class, (b, it) -> b
+        var person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com")
             .set(it::birthdate).to(LocalDate.of(1977, 10, 26))
@@ -41,7 +41,7 @@ public class LawangTest {
 
     @Test
     public void create_withMap_correctValues() {
-        Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         map.put("name", "Philip Oswald");
         map.put("email", "philip.oswald@gmail.com");
         map.put("birthdate", LocalDate.of(1977, 10, 26));
@@ -56,7 +56,7 @@ public class LawangTest {
 
     @Test
     public void toMap_instance_correctValues() {
-        Person person = Lawang.create(Person.class, (b, it) -> b
+        var person = Lawang.create(Person.class, (b, it) -> b
                 .set(it::name).to("Philip Oswald")
                 .set(it::age).to(40));
         Map<String, Object> map = Lawang.toMap(person);
@@ -68,7 +68,7 @@ public class LawangTest {
 
     @Test
     public void instance_toString_byValue() {
-        Person person = Lawang.create(Person.class, (b, it) -> b
+        var person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
 
@@ -77,13 +77,13 @@ public class LawangTest {
 
     @Test
     public void instance_equalsAndHashCode_byValue() {
-        Person person = Lawang.create(Person.class, (b, it) -> b
+        var person = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
-        Person person2 = Lawang.create(Person.class, (b, it) -> b
+        var person2 = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald")
             .set(it::email).to("philip.oswald@gmail.com"));
-        Person person3 = Lawang.create(Person.class, (b, it) -> b
+        var person3 = Lawang.create(Person.class, (b, it) -> b
             .set(it::name).to("Philip Oswald"));
 
         assertTrue(person.equals(person2));

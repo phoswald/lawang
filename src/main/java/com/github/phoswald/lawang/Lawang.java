@@ -12,7 +12,7 @@ public class Lawang {
     }
 
     public static <T> T create(Class<T> type, BiFunction<Initializer<T>, T, Initializer<T>> initializerFunc) {
-        Initializer<T> initializer = new Initializer<>(type);
+        var initializer = new Initializer<>(type);
         initializerFunc.apply(initializer, initializer.resolver.proxy);
         return GenericObject.createProxy(type, initializer.fields);
     }
